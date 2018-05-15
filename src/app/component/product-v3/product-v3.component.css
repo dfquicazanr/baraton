@@ -1,0 +1,8 @@
+.not-available {
+  background-color: lightgray;
+}
+
+.container-fluid {
+  cursor: pointer;
+  border-bottom: 1px solid gray;
+}

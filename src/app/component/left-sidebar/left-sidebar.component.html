@@ -1,0 +1,9 @@
+<div class="col-3">
+  <ngx-dropdown-treeview
+    [config]="config"
+    [items]="items"
+    [buttonClass]="buttonClass"
+    (selectedChange)="values = $event"
+    (filterChange)="onFilterChange($event)">
+  </ngx-dropdown-treeview>
+</div>

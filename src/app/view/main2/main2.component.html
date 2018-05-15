@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <div class="row">
+    <!--<app-left-sidebar>
+    </app-left-sidebar>-->
+    <div class="col-3">
+      <ul>
+        <li *ngFor="let category of categories">
+          <label>{{category.name}}</label>
+
+          <ul *ngIf="category.sublevels">
+            <app-sublevel [sublevels]="category.sublevels" [products]="products"></app-sublevel>
+          </ul>
+        </li>
+      </ul>
+      <app-filters [products]="products"
+                   [showedProducts]="showedProducts"
+                   [maxPrice]="maxProductsPrice"
+                   [maxQuantity]="maxProductsQuantity"
+                   (changeShowedProducts)="refreshProducts($event)">
+      </app-filters>
+    </div>
+
+    <div class="col-9">
+      <div class="container-fluid">
+        <div class="row" style="margin-bottom: 5px">
+          <div class="col-4">
+            <label>
+              Organizar por:
+            </label>
+          </div>
+          <div class="col-4">
+            <ng-select [options]="options"
+                       [noFilter]="10"
+                       (selected)="order($event)">
+            </ng-select>
+          </div>
+          <div class="col-2">
+          </div>
+          <div class="col-1">
+            <button class="btn" (click)="showAsList()"><i class="fa fa-list"></i></button>
+          </div>
+          <div class="col-1">
+            <button class="btn" (click)="showAsSquareItems()"><i class="fa fa-square"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <ul *ngIf="list">
+        <li class="li-block" *ngFor="let product of showedProducts">
+          <app-product-v2 [product]="product" (productChange)="recalculateTotal()"></app-product-v2>
+        </li>
+      </ul>
+
+      <div class="row" *ngIf="squareItems" style="margin: 2px">
+        <div class="col-4 square-item" *ngFor="let product of showedProducts">
+          <app-product-v3 [product]="product"></app-product-v3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

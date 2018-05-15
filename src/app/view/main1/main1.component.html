@@ -1,0 +1,87 @@
+<div class="container-fluid">
+  <div class="row">
+    <!--<app-left-sidebar>
+    </app-left-sidebar>-->
+    <div class="col-3">
+      <ul>
+        <li *ngFor="let category of categories">
+          <label>{{category.name}}</label>
+
+          <ul *ngIf="category.sublevels">
+            <app-sublevel [sublevels]="category.sublevels" [products]="products"></app-sublevel>
+          </ul>
+        </li>
+      </ul>
+      <app-filters [products]="products"
+                   [showedProducts]="showedProducts"
+                   [maxPrice]="maxProductsPrice"
+                   [maxQuantity]="maxProductsQuantity"
+                   (changeShowedProducts)="refreshProducts($event)">
+      </app-filters>
+    </div>
+
+    <div class="col-9">
+      <div class="row" style="margin-bottom: 5px">
+        <div class="col-4"></div>
+        <div class="col-2">
+          <button class="btn" style="width: 100%" (click)="orderByQuantity()">
+            Cantidad
+          </button>
+        </div>
+        <div class="col-2">
+          <button class="btn" style="width: 100%" (click)="orderByPrice()">
+            Precio
+          </button>
+        </div>
+      </div>
+      <ul>
+        <li class="li-block" *ngFor="let product of showedProducts">
+          <app-product-v1 [product]="product" (productChange)="recalculateTotal()"></app-product-v1>
+        </li>
+        <li class="li-block">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-2">
+              </div>
+              <div class="col-2">
+              </div>
+              <div class="col-2">
+
+              </div>
+              <div class="col-2">
+
+              </div>
+              <div class="col-2">
+                {{totalQuantity}}
+              </div>
+              <div class="col-2">
+                {{totalPrice}}
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="li-block">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-2">
+              </div>
+              <div class="col-2">
+              </div>
+              <div class="col-2">
+
+              </div>
+              <div class="col-2">
+
+              </div>
+              <div class="col-4">
+                <button class="btn" style="width: 100%; text-align: center">
+                  Añadir al carrito
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

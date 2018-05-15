@@ -1,0 +1,49 @@
+<form>
+  <div class="form-group">
+    <label style="width: 100%">Disponibilidad</label>
+    <label for="available">
+      <input id="available"
+             name="available"
+             type="checkbox"
+             [(ngModel)]="available"
+             (change)="filter()">
+      Disponible
+    </label>
+    <label for="notAvailable">
+      <input id="notAvailable"
+             name="notAvailable"
+             type="checkbox"
+             [(ngModel)]="notAvailable"
+             (change)="filter()">
+      No disponible
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label for="priceRange" style="width: 100%">Precio</label>
+    ${{priceRange[0]}} - ${{priceRange[1]}}
+    <nouislider name="priceRange"
+                id="priceRange"
+                [connect]="true"
+                [min]="0"
+                [max]="maxProductsPrice + 1"
+                [step]="1"
+                [(ngModel)]="priceRange"
+                (ngModelChange) = filter()></nouislider>
+  </div>
+  <div class="form-group">
+    <label for="quantityRange" style="width: 100%">Cantidad</label>
+    {{quantityRange[0]}} - {{quantityRange[1]}}
+    <nouislider name="quantityRange"
+                id="quantityRange"
+                [connect]="true"
+                [min]="0"
+                [max]="maxProductsQuantity + 1"
+                [step]="1"
+                [(ngModel)]="quantityRange"
+                (ngModelChange) = filter()></nouislider>
+  </div>
+
+</form>
+
+

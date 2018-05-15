@@ -1,0 +1,53 @@
+<div class="container-fluid">
+  <label (click)="back()" style="cursor: pointer; font-size: large"> <- Atrás</label>
+  <div class="row">
+    <div class="col-4">
+      <img style="width: 100%; padding: 3px;" src="../../../assets/image/grumpy-cat-rainbow-square.jpg">
+    </div>
+    <div class="col-8">
+      <label style="width: 100%; font-size: xx-large">{{product.name}}</label>
+      <label style="width: 100%; font-size: x-large">Disponible:
+        <span *ngIf="product.available">
+          Si
+        </span>
+        <span *ngIf="!product.available">
+          No
+        </span>
+      </label>
+      <div class="row">
+        <div class="col">
+          <label style="text-align: center; height: 100%; font-size: x-large"><span style="vertical-align: middle; display: inline-block">Cantidad</span></label>
+        </div>
+        <div class="col">
+          <ngx-numeric-textbox
+            [min]="0"
+            [max]="product.quantity"
+            [decimals]="0"
+            [format]="format"
+            [placeholder]="0"
+            [disabled]="!product.available"
+            [(ngModel)]="product.chosenQuantity"
+            (ngModelChange)="recalculateSubtotal()"
+            [autoCorrect]="true">
+          </ngx-numeric-textbox>
+        </div>
+        <div class="col">
+          <label style="width: 100%; font-size: x-large">{{product.quantity}} disponibles</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label style="width: 100%; font-size: x-large">{{product.price}}</label>
+        </div>
+        <div class="col">
+          <label style="font-size: x-large">{{subtotal}}</label>
+        </div>
+        <div class="col">
+          <button class="btn">
+            Añadir al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="container-fluid" [ngClass]="{'not-available' : !product.available}">
+  <div class="row">
+    <div class="col-2">
+      {{product.name}}
+    </div>
+    <div class="col-2">
+    </div>
+    <div class="col-2">
+      {{product.quantity}}
+    </div>
+    <div class="col-2">
+      {{product.price}}
+    </div>
+    <div class="col-2">
+      <ngx-numeric-textbox
+        [min]="0"
+        [max]="product.quantity"
+        [decimals]="0"
+        [format]="format"
+        [placeholder]="0"
+        [disabled]="!product.available"
+        [(ngModel)]="product.chosenQuantity"
+        (ngModelChange)="recalculateSubtotal()"
+        [autoCorrect]="true">
+      </ngx-numeric-textbox>
+    </div>
+    <div class="col-2">
+      {{subtotal}}
+    </div>
+  </div>
+</div>

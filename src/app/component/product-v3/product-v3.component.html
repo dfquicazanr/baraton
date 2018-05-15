@@ -1,0 +1,6 @@
+<div class="container-fluid" [ngClass]="{'not-available' : !product.available}" (click)="goToProduct()">
+  <img style="width: 100%; padding: 4px;" src="../../../assets/image/grumpy-cat-rainbow-square.jpg">
+  <label style="width: 100%;">{{product.name}}</label>
+  <label style="width: 100%;">{{product.price}}</label>
+  <label style="width: 100%;">{{product.quantity}} disponibles</label>
+</div>
