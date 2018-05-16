@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Product} from '../../model/product';
 import {ProductTool} from '../../tool/product-tool';
+import {ValueFilter} from '../../model/value-filter';
 
 @Component({
   selector: 'app-filters',
@@ -23,7 +24,7 @@ export class FiltersComponent implements OnInit {
     }
   }
 
-  @Output() changeShowedProducts: EventEmitter<Product[]> = new EventEmitter<Product[]>();
+  @Output() changeShowedProducts: EventEmitter<ValueFilter> = new EventEmitter<ValueFilter>();
 
   maxProductsPrice = Number.MAX_VALUE;
   maxProductsQuantity = Number.MAX_VALUE;
@@ -39,7 +40,7 @@ export class FiltersComponent implements OnInit {
   }
 
   filter() {
-    this.changeShowedProducts.emit(ProductTool.filter(this.products, this.priceRange[0], this.priceRange[1],
+    this.changeShowedProducts.emit(new ValueFilter(this.priceRange[0], this.priceRange[1],
       this.quantityRange[0], this.quantityRange[1],
       this.available, this.notAvailable));
   }

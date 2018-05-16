@@ -1,4 +1,5 @@
 import {Product} from '../model/product';
+import {ValueFilter} from '../model/value-filter';
 
 export class ProductTool {
 
@@ -31,17 +32,15 @@ export class ProductTool {
     return +stringPrice;
   }
 
-  public static filter(products: Product[], minPrice: number = 0, maxPrice: number = Number.MAX_VALUE,
-                       minQuantity: number = 0, maxQuantity: number = Number.MAX_VALUE,
-                       available: boolean = false, notAvailable: boolean = false) {
+  public static filterByValues(products: Product[], valueFilter: ValueFilter) {
     const showedProducts: Product[] = [];
     for (let i = 0; i < products.length; i++) {
       const product = products[i];
-      if (this.getNumberPrice(product) <= maxPrice
-        && this.getNumberPrice(product) >= minPrice
-        && product.quantity <= maxQuantity
-        && product.quantity >= minQuantity
-        && ((product.available && available) || (!product.available && notAvailable))) {
+      if (this.getNumberPrice(product) <= valueFilter.maxPrice
+        && this.getNumberPrice(product) >= valueFilter.minPrice
+        && product.quantity <= valueFilter.maxQuantity
+        && product.quantity >= valueFilter.minQuantity
+        && ((product.available && valueFilter.available) || (!product.available && valueFilter.notAvailable))) {
         showedProducts.push(product);
       }
     }

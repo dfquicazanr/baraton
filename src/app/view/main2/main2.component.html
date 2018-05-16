@@ -3,20 +3,15 @@
     <!--<app-left-sidebar>
     </app-left-sidebar>-->
     <div class="col-3">
-      <ul>
-        <li *ngFor="let category of categories">
-          <label>{{category.name}}</label>
-
-          <ul *ngIf="category.sublevels">
-            <app-sublevel [sublevels]="category.sublevels" [products]="products"></app-sublevel>
-          </ul>
-        </li>
-      </ul>
+      <ngx-treeview
+        (selectedChange)="filterBySublevels($event)"
+        [items]="items">
+      </ngx-treeview>
       <app-filters [products]="products"
                    [showedProducts]="showedProducts"
                    [maxPrice]="maxProductsPrice"
                    [maxQuantity]="maxProductsQuantity"
-                   (changeShowedProducts)="refreshProducts($event)">
+                   (changeShowedProducts)="filterByValues($event)">
       </app-filters>
     </div>
 
@@ -29,7 +24,8 @@
             </label>
           </div>
           <div class="col-4">
-            <ng-select [options]="options"
+            <ng-select [(ngModel)]="option"
+                       [options]="options"
                        [noFilter]="10"
                        (selected)="order($event)">
             </ng-select>
@@ -47,7 +43,7 @@
 
       <ul *ngIf="list">
         <li class="li-block" *ngFor="let product of showedProducts">
-          <app-product-v2 [product]="product" (productChange)="recalculateTotal()"></app-product-v2>
+          <app-product-v2 [product]="product"></app-product-v2>
         </li>
       </ul>
 

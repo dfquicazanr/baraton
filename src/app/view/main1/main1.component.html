@@ -3,15 +3,6 @@
     <!--<app-left-sidebar>
     </app-left-sidebar>-->
     <div class="col-3">
-      <ul>
-        <li *ngFor="let category of categories">
-          <label>{{category.name}}</label>
-
-          <ul *ngIf="category.sublevels">
-            <app-sublevel [sublevels]="category.sublevels" [products]="products"></app-sublevel>
-          </ul>
-        </li>
-      </ul>
       <app-filters [products]="products"
                    [showedProducts]="showedProducts"
                    [maxPrice]="maxProductsPrice"

@@ -4,6 +4,10 @@ import {CategoryService} from '../../service/category.service';
 import {Product} from '../../model/product';
 import {Category} from '../../model/category';
 import {ProductTool} from '../../tool/product-tool';
+import {DownlineTreeviewItem, TreeviewItem} from 'ngx-treeview';
+import {CategoryTool} from '../../tool/category-tool';
+import {SublevelTool} from '../../tool/sublevel-tool';
+import {ValueFilter} from '../../model/value-filter';
 
 declare var numeral: any;
 
@@ -25,12 +29,13 @@ export class Main2Component implements OnInit {
   maxProductsPrice = 0;
   maxProductsQuantity = 0;
 
-  totalQuantity = 0;
-  totalPrice: any = '$0';
-
   list = true;
   squareItems = false;
 
+  items: TreeviewItem[] = [];
+
+  option = '1';
+  orderBy;
   options = [
     {value: '1', label: 'Cantidad: menor a mayor'},
     {value: '2', label: 'Cantidad: mayor a menor'},
@@ -39,9 +44,14 @@ export class Main2Component implements OnInit {
     {value: '5', label: 'Disponibilidad'},
   ];
 
+  sublevelIds = [];
+  valueFilter: ValueFilter = new ValueFilter(0, Number.MAX_VALUE, 0, Number.MAX_VALUE,
+    true, true);
+
   constructor(private categoryService: CategoryService, private productService: ProductService) { }
 
   ngOnInit() {
+    this.orderBy = this.options[0];
     this.productService
       .getProducts()
       .subscribe(products => {
@@ -53,73 +63,13 @@ export class Main2Component implements OnInit {
       .getProducts()
       .subscribe(categories => {
         this.categories = categories.categories;
+        this.items = CategoryTool.categoriesToItems(this.categories);
       });
-  }
-
-  order(option) {
-    switch (option.value) {
-      case '1':
-        ProductTool.sortProductsByQuantity(this.showedProducts);
-        break;
-      case '2':
-        ProductTool.sortProductsByQuantity(this.showedProducts);
-        this.showedProducts.reverse();
-        break;
-      case '3':
-        ProductTool.sortProductsByPrice(this.showedProducts);
-        break;
-      case '4':
-        ProductTool.sortProductsByPrice(this.showedProducts);
-        this.showedProducts.reverse();
-        break;
-      case '5':
-        break;
-      default:
-        console.log(option.value);
-        break;
-    }
-  }
-
-  orderByQuantity() {
-    if (this.orderedByQuantity) {
-      this.showedProducts.reverse();
-    } else {
-      ProductTool.sortProductsByQuantity(this.showedProducts);
-      this.orderedByQuantity = true;
-      this.orderedByPrice = false;
-    }
-  }
-
-  orderByPrice() {
-    if (this.orderedByPrice) {
-      this.showedProducts.reverse();
-    } else {
-      ProductTool.sortProductsByPrice(this.showedProducts);
-      this.orderedByPrice = true;
-      this.orderedByQuantity = false;
-    }
   }
 
   setMaxs() {
     this.maxProductsPrice = ProductTool.getMaxPrice(this.products);
     this.maxProductsQuantity = ProductTool.getMaxQuantity(this.products);
-  }
-
-  refreshProducts(value) {
-    this.showedProducts = value;
-    this.orderedByPrice = false;
-    this.orderedByQuantity = false;
-    this.recalculateTotal();
-  }
-
-  recalculateTotal() {
-    this.totalQuantity = 0;
-    this.totalPrice = 0;
-    for (let i = 0; i < this.showedProducts.length; i++) {
-      this.totalQuantity += this.showedProducts[i].chosenQuantity;
-      this.totalPrice += ProductTool.getNumberPrice(this.showedProducts[i]) * this.showedProducts[i].chosenQuantity;
-    }
-    this.totalPrice = numeral(this.totalPrice).format('$0,0');
   }
 
   showAsList() {
@@ -130,5 +80,53 @@ export class Main2Component implements OnInit {
   showAsSquareItems() {
     this.list = false;
     this.squareItems = true;
+  }
+
+  order(option) {
+    this.option = option.value;
+    for (let i = 0; i < this.options.length; i++) {
+      if (this.options[i].value === this.option) {
+        this.orderBy = this.options[i];
+        this.refreshProducts();
+        return;
+      }
+    }
+  }
+
+  filterByValues(valueFilter: ValueFilter) {
+    this.valueFilter = valueFilter;
+    this.refreshProducts();
+  }
+
+  filterBySublevels(sublevelIds) {
+    this.sublevelIds = sublevelIds;
+    this.refreshProducts();
+  }
+
+  refreshProducts() {
+    this.showedProducts = this.products;
+    this.showedProducts = ProductTool.filterByValues(this.showedProducts, this.valueFilter);
+    this.showedProducts = SublevelTool.filterProductsBySublevel(this.sublevelIds, this.showedProducts);
+    switch (this.orderBy.value) {
+      case '1':
+        this.showedProducts = ProductTool.sortProductsByQuantity(this.showedProducts);
+        break;
+      case '2':
+        this.showedProducts = ProductTool.sortProductsByQuantity(this.showedProducts);
+        this.showedProducts.reverse();
+        break;
+      case '3':
+        this.showedProducts = ProductTool.sortProductsByPrice(this.showedProducts);
+        break;
+      case '4':
+        this.showedProducts = ProductTool.sortProductsByPrice(this.showedProducts);
+        this.showedProducts.reverse();
+        break;
+      case '5':
+        break;
+      default:
+        console.log(this.orderBy.value);
+        break;
+    }
   }
 }

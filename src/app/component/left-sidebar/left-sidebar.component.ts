@@ -58,7 +58,7 @@ export class LeftSidebarComponent implements OnInit {
   }
 
   onFilterChange(value: string) {
-    console.log('filter:', value);
+    console.log('filterByValues:', value);
   }
 
 }

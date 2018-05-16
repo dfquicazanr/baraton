@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
-import { SublevelComponent } from './component/sublevel/sublevel.component';
 import { HeaderComponent } from './component/header/header.component';
 import { LeftSidebarComponent } from './component/left-sidebar/left-sidebar.component';
 import { ProductV1Component } from './component/product-v1/product-v1.component';
@@ -26,7 +25,6 @@ import { ProductComponent } from './view/product/product.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SublevelComponent,
     HeaderComponent,
     LeftSidebarComponent,
     ProductV1Component,
