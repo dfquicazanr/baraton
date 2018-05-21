@@ -18,7 +18,9 @@ export class ProductV2Component implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.product.chosenQuantity = 0;
+    if (!this.product.chosenQuantity) {
+      this.product.chosenQuantity = 0;
+    }
   }
 
   goToProduct() {

@@ -18,6 +18,7 @@ export class CheckOutComponent implements OnInit {
   ngOnInit() {
     this.shoppingCart = ShoppingCartTool.getShoppingCart();
     this.products = this.shoppingCart.products;
+    console.log(JSON.stringify(this.products));
   }
 
 }
