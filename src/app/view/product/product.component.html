@@ -40,10 +40,10 @@
           <label style="width: 100%; font-size: x-large">{{product.price}}</label>
         </div>
         <div class="col">
-          <label style="font-size: x-large">{{subtotal}}</label>
+          <label *ngIf="product.available" style="font-size: x-large">{{subtotal}}</label>
         </div>
         <div class="col">
-          <button class="btn">
+          <button *ngIf="product.available" (click)="addToShoppingCart()" class="btn">
             Añadir al carrito
           </button>
         </div>

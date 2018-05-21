@@ -20,6 +20,9 @@ import { ProductV2Component } from './component/product-v2/product-v2.component'
 import {SelectModule} from 'ng-select';
 import { ProductV3Component } from './component/product-v3/product-v3.component';
 import { ProductComponent } from './view/product/product.component';
+import {ToastModule, ToastOptions} from 'ng2-toastr';
+import {ToastBaratonOptions} from './tool/toast-baraton-options';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -38,15 +41,19 @@ import { ProductComponent } from './view/product/product.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
     NouisliderModule,
     TreeviewModule.forRoot(),
     NumericTextboxModule,
-    SelectModule
+    SelectModule,
+    ToastModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    {provide: ToastOptions, useClass: ToastBaratonOptions}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

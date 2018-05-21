@@ -1,3 +1,5 @@
-<p>
-  check-out works!
-</p>
+<ul>
+  <li class="li-block" *ngFor="let product of products">
+    <app-product-v2 [product]="product"></app-product-v2>
+  </li>
+</ul>

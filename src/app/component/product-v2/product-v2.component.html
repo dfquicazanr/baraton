@@ -3,10 +3,13 @@
     <div class="col-4">
       <img style="width: 100%; padding: 4px;" src="../../../assets/image/grumpy-cat-rainbow-square.jpg">
     </div>
-    <div class="col-8">
+    <div class="col-7">
       <label style="width: 100%;">{{product.name}}</label>
       <label style="width: 100%;">{{product.price}}</label>
       <label style="width: 100%;">{{product.quantity}} disponibles</label>
+    </div>
+    <div class="col-1">
+      <button *ngIf="product.chosenQuantity && product.chosenQuantity != 0" style="margin-top: 15px" class="btn"><i class="fa fa-close"></i></button>
     </div>
   </div>
 </div>
