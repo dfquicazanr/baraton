@@ -4,7 +4,7 @@ import {CategoryService} from '../../service/category.service';
 import {Product} from '../../model/product';
 import {Category} from '../../model/category';
 import {ProductTool} from '../../tool/product-tool';
-import {DownlineTreeviewItem, TreeviewItem} from 'ngx-treeview';
+import {TreeviewItem} from 'ngx-treeview';
 import {CategoryTool} from '../../tool/category-tool';
 import {SublevelTool} from '../../tool/sublevel-tool';
 import {ValueFilter} from '../../model/value-filter';
@@ -23,9 +23,6 @@ export class Main2Component implements OnInit {
   showedProducts: Product[] = [];
   categories: Category[] = [];
 
-  orderedByPrice = false;
-  orderedByQuantity = false;
-
   maxProductsPrice = 0;
   maxProductsQuantity = 0;
 
@@ -33,6 +30,9 @@ export class Main2Component implements OnInit {
   squareItems = false;
 
   items: TreeviewItem[] = [];
+
+  sidenavOpen = false;
+  sidenav;
 
   option = '1';
   orderBy;
@@ -48,9 +48,13 @@ export class Main2Component implements OnInit {
   valueFilter: ValueFilter = new ValueFilter(0, Number.MAX_VALUE, 0, Number.MAX_VALUE,
     true, true);
 
+  searchWord = '';
+
   constructor(private categoryService: CategoryService, private productService: ProductService) { }
 
   ngOnInit() {
+    this.sidenav = document.getElementById('sidenav');
+
     this.orderBy = this.options[0];
     this.productService
       .getProducts()
@@ -72,14 +76,17 @@ export class Main2Component implements OnInit {
     this.maxProductsQuantity = ProductTool.getMaxQuantity(this.products);
   }
 
-  showAsList() {
-    this.list = true;
-    this.squareItems = false;
+  toggleShow() {
+    this.list = !this.list;
+    this.squareItems = !this.squareItems;
   }
 
-  showAsSquareItems() {
-    this.list = false;
-    this.squareItems = true;
+  toggleSidenav() {
+    this.sidenav.classList.toggle('sidenav-toggled');
+  }
+
+  closeNav() {
+    this.sidenav.classList.remove('sidenav-toggled');
   }
 
   order(option) {
@@ -103,10 +110,15 @@ export class Main2Component implements OnInit {
     this.refreshProducts();
   }
 
+  findCoincidences() {
+    this.refreshProducts();
+  }
+
   refreshProducts() {
     this.showedProducts = this.products;
     this.showedProducts = ProductTool.filterByValues(this.showedProducts, this.valueFilter);
     this.showedProducts = SublevelTool.filterProductsBySublevel(this.sublevelIds, this.showedProducts);
+    this.showedProducts = ProductTool.filterByWord(this.showedProducts, this.searchWord);
     switch (this.orderBy.value) {
       case '1':
         this.showedProducts = ProductTool.sortProductsByQuantity(this.showedProducts);

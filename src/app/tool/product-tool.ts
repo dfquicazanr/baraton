@@ -46,4 +46,15 @@ export class ProductTool {
     }
     return showedProducts;
   }
+
+  public static filterByWord(products: Product[], word: string) {
+    const showedProducts: Product[] = [];
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      if (product.name.indexOf(word) !== -1) {
+        showedProducts.push(product);
+      }
+    }
+    return showedProducts;
+  }
 }

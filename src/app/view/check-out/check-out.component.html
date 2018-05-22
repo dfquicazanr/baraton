@@ -1,5 +1,13 @@
 <ul>
   <li class="li-block" *ngFor="let product of products">
-    <app-product-v2 [product]="product"></app-product-v2>
+    <app-product-v2 [product]="product" (productChange)="change(event)"></app-product-v2>
   </li>
 </ul>
+<div *ngIf="products.length > 0">
+  <label style="margin-left: 20px; font-size: 7vw">Total: {{total}}</label>
+  <button style="font-size: 5vw; float: right; margin-right: 15px" class="btn" (click)="buy()">Comprar</button>
+</div>
+<div *ngIf="products.length === 0" class="container">
+  <label style="font-size: 5vw; text-align: center">No hay nada aún en el carrito</label>
+</div>
+

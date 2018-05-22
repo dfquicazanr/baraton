@@ -2,8 +2,10 @@
   <div class="row">
     <!--<app-left-sidebar>
     </app-left-sidebar>-->
-    <div class="col-3">
+    <div class="col sidenav" id="sidenav">
+      <button (click)="closeNav()" class="btn fa fa-arrow-left"></button>
       <ngx-treeview
+        style="margin-top: 10px"
         (selectedChange)="filterBySublevels($event)"
         [items]="items">
       </ngx-treeview>
@@ -15,9 +17,22 @@
       </app-filters>
     </div>
 
-    <div class="col-9">
+    <div class="col main">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="search"></label>
+              <input (change)="findCoincidences()" (keyup)="findCoincidences()" [(ngModel)]="searchWord" type="search" class="form-control" id="search" placeholder="Búsqueda">
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="container-fluid">
         <div class="row" style="margin-bottom: 5px">
+          <div class="col open">
+            <button style="float: right" class="btn" (click)="toggleSidenav()"><i class="fa fa-sliders"></i></button>
+          </div>
           <div class="col-4">
             <label>
               Organizar por:
@@ -30,18 +45,13 @@
                        (selected)="order($event)">
             </ng-select>
           </div>
-          <div class="col-2">
-          </div>
-          <div class="col-1">
-            <button class="btn" (click)="showAsList()"><i class="fa fa-list"></i></button>
-          </div>
-          <div class="col-1">
-            <button class="btn" (click)="showAsSquareItems()"><i class="fa fa-square"></i></button>
+          <div class="col">
+            <button style="float: right" class="btn" (click)="toggleShow()"><i class="fa fa-list"></i></button>
           </div>
         </div>
       </div>
 
-      <ul *ngIf="list">
+      <ul *ngIf="list" style="padding: 0">
         <li class="li-block" *ngFor="let product of showedProducts">
           <app-product-v2 [product]="product"></app-product-v2>
         </li>
@@ -51,6 +61,10 @@
         <div class="col-4 square-item" *ngFor="let product of showedProducts">
           <app-product-v3 [product]="product"></app-product-v3>
         </div>
+      </div>
+
+      <div *ngIf="showedProducts.length === 0">
+        <label style="font-size: 5vw; text-align: center">No se encontraron resultados</label>
       </div>
     </div>
   </div>

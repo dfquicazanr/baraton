@@ -1,15 +1,28 @@
-<div class="container-fluid" [ngClass]="{'not-available' : !product.available}" (click)="goToProduct()">
+<div class="container-fluid" [ngClass]="{'not-available' : !product.available}">
   <div class="row">
     <div class="col-4">
-      <img style="width: 100%; padding: 4px;" src="../../../assets/image/grumpy-cat-rainbow-square.jpg">
+      <img (click)="goToProduct()" style="width: 100%; padding: 4px; cursor: pointer" src="../../../assets/image/grumpy-cat-rainbow-square.jpg">
     </div>
-    <div class="col-7">
-      <label style="width: 100%;">{{product.name}}</label>
-      <label style="width: 100%;">{{product.price}}</label>
-      <label style="width: 100%;">{{product.quantity}} disponibles</label>
+    <div class="col-5">
+      <label (click)="goToProduct()" style="width: 100%; font-size: 3vw; cursor: pointer">{{product.name}}</label>
+      <label *ngIf="product.chosenQuantity > 0" style="width: 100%; font-size: 3vw">{{subtotal}}</label>
+      <label *ngIf="!product.chosenQuantity" style="width: 100%; font-size: 3vw">{{product.price}}</label>
+      <label *ngIf="!product.chosenQuantity" style="width: 100%;">{{product.quantity}} disponibles</label>
     </div>
-    <div class="col-1">
-      <button *ngIf="product.chosenQuantity > 0" style="margin-top: 15px" class="btn"><i class="fa fa-close"></i></button>
+    <div *ngIf="product.chosenQuantity > 0" class="col-3">
+      <label style="font-size: 2vm; margin: 0">Cantidad: </label>
+      <ngx-numeric-textbox
+        [min]="1"
+        [max]="product.quantity"
+        [decimals]="0"
+        [format]="format"
+        [placeholder]="0"
+        [disabled]="!product.available"
+        [(ngModel)]="product.chosenQuantity"
+        (ngModelChange)="recalculateSubtotal()"
+        [autoCorrect]="true">
+      </ngx-numeric-textbox>
+      <button (click)="removeProduct()" style="margin-top: 7px; float: right; font-size: 2vw" class="btn"><i class="fa fa-close"></i></button>
     </div>
   </div>
 </div>

@@ -1,9 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
-import {ProductService} from './service/product.service';
-import {CategoryService} from './service/category.service';
-import {Product} from './model/product';
-import {Category} from './model/category';
-import {ProductTool} from './tool/product-tool';
+import {Component, OnInit} from '@angular/core';
 
 declare var numeral: any;
 

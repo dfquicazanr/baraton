@@ -9,3 +9,50 @@
 .square-item {
   padding: 1px 0;
 }
+
+@media only screen and (max-width: 991px) {
+  .sidenav {
+    display: none;
+  }
+
+  .sidenav-toggled {
+    width: 300px;
+    display: inline;
+  }
+
+  .sidenav >.fa-arrow-left {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .sidenav {
+    width: 300px;
+  }
+
+  .main {
+    margin-left: 300px;
+  }
+
+  .main > .container-fluid > .row > .open {
+    display: none;
+  }
+
+  .sidenav >.fa-arrow-left {
+    display: none;
+  }
+}
+
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  position: fixed; /* Stay in place */
+  background-color: white;
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  margin-top: 56px; /* Place the side navbar below main navbar */
+  padding-top: 10px;
+  padding-bottom: 80px;
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}

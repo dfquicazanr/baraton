@@ -47,13 +47,34 @@ export class ShoppingCartTool {
 
   public static addProduct(product: Product) {
     const products = this.getShoppingCart().products;
+    let isInProducts = false;
+    for (let i = 0; i < products.length; i++) {
+      if (products[i].id === product.id) {
+        products[i].chosenQuantity += product.chosenQuantity;
+        isInProducts = true;
+      }
+    }
+    if (!isInProducts) {
+      products.push(product);
+    }
+    this.updateProducts(products);
+  }
+
+  public static updateProduct(product: Product) {
+    const products = this.getShoppingCart().products;
+    let isInProducts = false;
     for (let i = 0; i < products.length; i++) {
       if (products[i].id === product.id) {
         products[i] = product;
+        isInProducts = true;
       }
     }
-    products.push(product);
-    this.updateProducts(products);
+    if (!isInProducts) {
+      return false;
+    } else {
+      this.updateProducts(products);
+      return true;
+    }
   }
 
   public static removeProduct(product: Product) {
